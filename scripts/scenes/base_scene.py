@@ -4,8 +4,8 @@ from const import COLORS
 
 
 class BaseScene:
-    def __init__(self, _state=SceneStates.IDLE):
-        self.state = _state
+    def __init__(self, state=SceneStates.IDLE):
+        self.state = state
         self.layers = self.init_layers()
         self.entities = self.init_entities()
 

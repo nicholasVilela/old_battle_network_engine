@@ -9,7 +9,7 @@ class Scenes(Enum):
 
 class SceneStates(Enum):
     IDLE     = 0
-    RUNNING  = 1
+    ACTIVE  = 1
     PAUSED   = 2
     FINISHED = 3
 
@@ -23,3 +23,8 @@ class LivingStates(Enum):
     MOVING    = 2
     ATTACKING = 3
     STAGGERED = 4
+
+class TileStates(Enum):
+    BASE   = 0
+    CRACK  = 1
+    BROKEN = 2

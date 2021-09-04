@@ -18,6 +18,7 @@ class Game:
         self.entry_scene = _entry_scene
         resources['scene_stack'] = [self.scenes[self.entry_scene]]
         self.active_scene = resources['scene_stack'].pop()
+        self.active_scene.state = SceneStates.ACTIVE
 
     def run(self):
         self.running = True

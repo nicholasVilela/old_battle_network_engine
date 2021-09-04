@@ -7,7 +7,7 @@ from sprite import Sprite
 from vec2 import Vec2
 from util import map_to_world, tint_by_row, init_surface, is_red_team
 from position import Position
-from enums import LivingStates, Teams
+from enums import LivingStates, Teams, TileStates
 
 
 class BattleScene(base_scene.BaseScene):
@@ -46,7 +46,7 @@ class BattleScene(base_scene.BaseScene):
                 tile = Entity(
                     name=f'tile_({x}, {y})',
                     sprite=Sprite(
-                        path=SPRITES['tiles']['red' if is_red else 'blue']['default'],
+                        path=SPRITES['tiles']['red' if is_red else 'blue'][TileStates.BASE],
                         layer=self.layers['map'],
                         size=Vec2(40, 30),
                         scale=scale,

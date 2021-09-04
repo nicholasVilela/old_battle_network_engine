@@ -1,4 +1,4 @@
-from enums import LivingStates
+from enums import LivingStates, TileStates
 
 
 COLORS = {
@@ -16,10 +16,10 @@ COLORS = {
 SPRITES = {
     'tiles': {
         'red': {
-            'default': '../assets/textures/tiles/tile_red.png'
+            TileStates.BASE: '../assets/textures/tiles/tile_red.png'
         },
         'blue': {
-            'default': '../assets/textures/tiles/tile_blue.png'
+            TileStates.BASE: '../assets/textures/tiles/tile_blue.png'
         }
     },
     'battlers': {
@@ -27,4 +27,8 @@ SPRITES = {
             LivingStates.IDLE: '../assets/textures/megaman/IDLE_spritesheet.png'
         },
     }
+}
+
+FONTS = {
+    'base': '../assets/fonts/BN6FontBold.ttf'
 }

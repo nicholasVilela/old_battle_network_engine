@@ -1,3 +1,3 @@
 resources = {
-    'scene_stack': []
+    'scene_stack': [],
 }

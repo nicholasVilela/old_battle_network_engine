@@ -18,5 +18,5 @@ scenes = {
     Scenes.END: end_scene.EndScene(),
 }
 
-game = Game(screen, scenes, Scenes.BATTLE)
+game = Game(screen, scenes, Scenes.PAUSE)
 game.run()
