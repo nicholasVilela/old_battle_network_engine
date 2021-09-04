@@ -1,6 +1,9 @@
 import pygame
 import sys
 
+from enums import SceneStates
+from const import COLORS
+
 
 class Game:
     def __init__(self, _screen, _scenes, _entry_scene):
@@ -41,8 +44,20 @@ class Game:
             self.active_scene.get_event(event)
 
     def update_scene(self):
-        pass
+        if self.active_scene.state == SceneStates.QUIT:
+            self.running = False
+        elif self.active_scene.state == SceneStates.FINISHED:
+            self.next_scene()
+
+        self.active_scene.update()
 
 
     def render(self):
-        pass
+        self.screen.fill(COLORS['dim_gray'])
+        self.render_scene()
+
+    def render_scene(self):
+        self.active_scene.render()
+
+        for key in self.active_scene.layers:
+            self.screen.blit(self.active_scene.layers[key], (0, 0))
