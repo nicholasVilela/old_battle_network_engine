@@ -8,8 +8,11 @@ class Scenes(Enum):
     END    = 3
 
 class SceneStates(Enum):
-    QUIT     = 0
-    IDLE     = 1
-    RUNNING  = 2
-    PAUSED   = 3
-    FINISHED = 4
+    IDLE     = 0
+    RUNNING  = 1
+    PAUSED   = 2
+    FINISHED = 3
+
+class Teams(Enum):
+    RED  = 0
+    BLUE = 1

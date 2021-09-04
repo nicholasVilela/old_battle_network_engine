@@ -3,6 +3,7 @@ import sys
 
 from enums import SceneStates
 from const import COLORS
+from resources import resources
 
 
 class Game:
@@ -15,8 +16,8 @@ class Game:
 
         self.scenes = _scenes
         self.entry_scene = _entry_scene
-        self.scene_stack = [self.scenes[self.entry_scene]]
-        self.active_scene = self.scene_stack[-1]
+        resources['scene_stack'] = [self.scenes[self.entry_scene]]
+        self.active_scene = resources['scene_stack'].pop()
 
     def run(self):
         self.running = True
@@ -44,12 +45,16 @@ class Game:
             self.active_scene.get_event(event)
 
     def update_scene(self):
-        if self.active_scene.state == SceneStates.QUIT:
-            self.running = False
-        elif self.active_scene.state == SceneStates.FINISHED:
+        if self.active_scene.state == SceneStates.FINISHED:
             self.next_scene()
 
         self.active_scene.update()
+
+
+    def next_scene(self):
+        resources['scene_stack'] = resources['scene_stack'][:-1]
+        self.active_scene = resources['scene_stack'].pop()
+        self.active_scene.change_state(SceneStates.RUNNING)
 
 
     def render(self):

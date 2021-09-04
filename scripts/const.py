@@ -9,3 +9,14 @@ COLORS = {
     'purple': (255, 0, 255),
     'cyan': (0, 255, 255),
 }
+
+SPRITES = {
+    'tiles': {
+        'red': {
+            'default': '../assets/textures/tiles/tile_red.png'
+        },
+        'blue': {
+            'default': '../assets/textures/tiles/tile_blue.png'
+        }
+    }
+}
