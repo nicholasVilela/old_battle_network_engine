@@ -28,3 +28,9 @@ class TileStates(Enum):
     BASE   = 0
     CRACK  = 1
     BROKEN = 2
+
+class ButtonStates(Enum):
+    IDLE     = 0
+    PRESSED  = 1
+    HOLDING  = 2
+    RELEASED = 3

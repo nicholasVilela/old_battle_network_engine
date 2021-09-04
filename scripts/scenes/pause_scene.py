@@ -16,9 +16,9 @@ class PauseScene(base_scene.BaseScene):
         self.text = self.font.render('PAUSED', 1, COLORS['white'])
 
     def render(self):
-        if self.state == SceneStates.ACTIVE:
-            super().render()
-            self.layers['base'].blit(self.text, (200, 220))
+        super().render()
+
+        self.layers['base'].blit(self.text, (200, 220))
 
     def init_layers(self):
         return {

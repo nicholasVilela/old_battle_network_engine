@@ -1,8 +1,9 @@
 from scenes import base_scene
-from config import MAP, WINDOW
+from config import MAP, WINDOW, CONTROLLER
 from const import COLORS, SPRITES
 from entities.entity import Entity
 from entities.living_entity import LivingEntity
+from entities.player_entity import PlayerEntity
 from sprite import Sprite
 from vec2 import Vec2
 from util import map_to_world, tint_by_row, init_surface, is_red_team
@@ -16,11 +17,12 @@ class BattleScene(base_scene.BaseScene):
         self.init_map()
         self.init_battlers()
 
-    def update(self):
-        pass
-
-    def get_event(self, event):
-        pass
+    def render(self):
+        for key in self.layers:
+            self.layers[key].fill(COLORS['black'])
+        for key in self.entities:
+            for entity in self.entities[key]:
+                entity.render()
 
     def init_entities(self):
         return {
@@ -64,7 +66,7 @@ class BattleScene(base_scene.BaseScene):
     def init_battlers(self):
         to_spawn = []
 
-        megaman = LivingEntity(
+        megaman = PlayerEntity(
             name='Megaman',
             sprite=Sprite(
                 path=SPRITES['battlers']['megaman'][LivingStates.IDLE],

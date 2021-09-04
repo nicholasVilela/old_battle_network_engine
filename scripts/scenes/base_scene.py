@@ -1,6 +1,7 @@
 from enums import SceneStates
 from resources import resources
 from const import COLORS
+from config import CONTROLLER
 
 
 class BaseScene:
@@ -10,18 +11,21 @@ class BaseScene:
         self.entities = self.init_entities()
 
     def update(self):
-        pass
-
-    def get_event(self, event):
-        pass
-
-    def render(self):
-        for key in self.layers:
-            self.layers[key].fill(COLORS['black'])
-
         for key in self.entities:
             for entity in self.entities[key]:
-                entity.render()
+                entity.update()
+
+    def get_event(self, event):
+        resources['controller'].update_event(event)
+
+    def render(self):
+        if self.state == SceneStates.ACTIVE:
+            for key in self.layers:
+                self.layers[key].fill(COLORS['black'])
+
+            for key in self.entities:
+                for entity in self.entities[key]:
+                    entity.render()
 
     def init_entities(self):
         return {}
@@ -34,6 +38,3 @@ class BaseScene:
             return
 
         self.state = target_state
-
-    def push_scene(self, target_scene):
-        resources['scene_stack'].append(target_scene)

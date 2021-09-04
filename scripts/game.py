@@ -7,17 +7,16 @@ from resources import resources
 
 
 class Game:
-    def __init__(self, _screen, _scenes, _entry_scene):
+    def __init__(self, screen, entry_scene):
         self.running = False
 
-        self.screen = _screen
+        self.screen = screen
         self.clock = pygame.time.Clock()
         self.fps_text = ''
 
-        self.scenes = _scenes
-        self.entry_scene = _entry_scene
-        resources['scene_stack'] = [self.scenes[self.entry_scene]]
-        self.active_scene = resources['scene_stack'].pop()
+        self.entry_scene = entry_scene
+        resources['scene_stack'] = [resources['scenes'][self.entry_scene]]
+        self.active_scene = resources['scene_stack'][-1]
         self.active_scene.state = SceneStates.ACTIVE
 
     def run(self):
@@ -35,6 +34,7 @@ class Game:
 
 
     def update(self):
+        self.active_scene = resources['scene_stack'][-1]
         self.update_events()
         self.update_scene()
 
@@ -54,8 +54,8 @@ class Game:
 
     def next_scene(self):
         resources['scene_stack'] = resources['scene_stack'][:-1]
-        self.active_scene = resources['scene_stack'].pop()
-        self.active_scene.change_state(SceneStates.RUNNING)
+        self.active_scene = resources['scene_stack'][-1]
+        self.active_scene.change_state(SceneStates.ACTIVE)
 
 
     def render(self):
@@ -65,5 +65,6 @@ class Game:
     def render_scene(self):
         self.active_scene.render()
 
-        for key in self.active_scene.layers:
-            self.screen.blit(self.active_scene.layers[key], (0, 0))
+        for scene in resources['scene_stack']:
+            for key in scene.layers:
+                self.screen.blit(scene.layers[key], (0, 0))

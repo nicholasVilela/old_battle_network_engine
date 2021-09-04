@@ -1,6 +1,7 @@
 import pygame
 
 from resources import resources
+from enums import SceneStates
 from config import TILE, MAP
 from vec2 import Vec2
 from rgb import RGB
@@ -52,3 +53,12 @@ def tint_by_row(row, is_red, row_limit):
         color = darkest + product
 
         return color
+
+def push_scene(target_scene):
+    active_scene = resources['scene_stack'][-1]
+    active_scene.state = SceneStates.IDLE
+
+    resources['scene_stack'].append(resources['scenes'][target_scene])
+
+    active_scene = resources['scene_stack'][-1]
+    active_scene.state = SceneStates.ACTIVE
