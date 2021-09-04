@@ -1,3 +1,6 @@
+from enums import LivingStates
+
+
 COLORS = {
     'black': (0, 0, 0),
     'dim_gray': (30, 30, 30),
@@ -18,5 +21,10 @@ SPRITES = {
         'blue': {
             'default': '../assets/textures/tiles/tile_blue.png'
         }
+    },
+    'battlers': {
+        'megaman': {
+            LivingStates.IDLE: '../assets/textures/megaman/IDLE_spritesheet.png'
+        },
     }
 }

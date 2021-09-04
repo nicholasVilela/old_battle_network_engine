@@ -4,14 +4,15 @@ from resources import resources
 from config import TILE, MAP
 from vec2 import Vec2
 from rgb import RGB
+from enums import Teams
 
 
-def map_to_screen(x, y, scale=1):
+def map_to_world(position, scale=1):
     offset_x = 0
     offset_y = 250
 
-    screen_x = offset_x + (TILE['surface_width'] * x * scale)
-    screen_y = offset_y + (TILE['surface_height'] * y * scale)
+    screen_x = offset_x + (TILE['surface_width'] * position.x * scale)
+    screen_y = offset_y + (TILE['surface_height'] * position.y * scale)
 
     return Vec2(screen_x, screen_y)
 
@@ -20,6 +21,15 @@ def init_surface(screen_size, colorkey):
     surface.set_colorkey(colorkey)
 
     return surface
+
+def check_position(position, team):
+    if position.y >= 0 and position.y < MAP['height']:
+        if team == Teams.RED:
+            return position.x >= 0 and position.x < (MAP['width'] / 2)
+        else:
+            return False
+
+    return False
 
 def is_red_team(x):
     return x >= 0 and x < (MAP['width'] / 2)

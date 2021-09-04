@@ -16,3 +16,10 @@ class SceneStates(Enum):
 class Teams(Enum):
     RED  = 0
     BLUE = 1
+
+class LivingStates(Enum):
+    SPAWN     = 0
+    IDLE      = 1
+    MOVING    = 2
+    ATTACKING = 3
+    STAGGERED = 4
