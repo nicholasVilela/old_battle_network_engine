@@ -5,4 +5,5 @@ resources = {
     'scenes': {},
     'scene_stack': [],
     'controller': CONTROLLER,
+    'dt': 0
 }

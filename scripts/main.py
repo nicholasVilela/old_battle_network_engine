@@ -13,10 +13,10 @@ pygame.display.set_caption("Battle Network Engine")
 screen = pygame.display.set_mode((WINDOW['width'], WINDOW['height']))
 
 resources['scenes'] = {
-    Scenes.BATTLE: battle_scene.BattleScene(),
-    # Scenes.SELECT: select_scene.SelectScene(),
-    Scenes.PAUSE: pause_scene.PauseScene(),
-    # Scenes.END: end_scene.EndScene(),
+    Scenes.BATTLE: battle_scene.BattleScene(Scenes.BATTLE),
+    Scenes.SELECT: select_scene.SelectScene(Scenes.SELECT),
+    Scenes.PAUSE: pause_scene.PauseScene(Scenes.PAUSE),
+    Scenes.END: end_scene.EndScene(Scenes.END),
 }
 
 game = Game(screen, Scenes.BATTLE)

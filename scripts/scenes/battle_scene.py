@@ -4,11 +4,12 @@ from const import COLORS, SPRITES
 from entities.entity import Entity
 from entities.living_entity import LivingEntity
 from entities.player_entity import PlayerEntity
-from sprite import Sprite
+from sprite import Sprite, AnimatedSprite
 from vec2 import Vec2
 from util import map_to_world, tint_by_row, init_surface, is_red_team
 from position import Position
 from enums import LivingStates, Teams, TileStates
+from animation import Animation
 
 
 class BattleScene(base_scene.BaseScene):
@@ -68,11 +69,32 @@ class BattleScene(base_scene.BaseScene):
 
         megaman = PlayerEntity(
             name='Megaman',
-            sprite=Sprite(
-                path=SPRITES['battlers']['megaman'][LivingStates.IDLE],
+            sprite=AnimatedSprite(
+                path=SPRITES['battlers']['megaman'],
                 layer=self.layers['battlers'],
                 size=Vec2(64, 64),
                 scale=2,
+                animations={
+                    LivingStates.SPAWN: Animation(
+                        name=LivingStates.SPAWN,
+                        frame_count=18,
+                        frame_duration=30,
+                        loop=False,
+                        playing=True,
+                    ),
+                    LivingStates.IDLE: Animation(
+                        name=LivingStates.IDLE,
+                        frame_count=1,
+                        frame_duration=1,
+                        loop=True,
+                    ),
+                    LivingStates.MOVING: Animation(
+                        name=LivingStates.MOVING,
+                        frame_count=5,
+                        frame_duration=40,
+                        loop=False,
+                    ),
+                },
             ),
             position=Position(
                 _map=Vec2(1, 1),
@@ -81,7 +103,7 @@ class BattleScene(base_scene.BaseScene):
             ),
             group=self.entities['battlers_red'],
             team=Teams.RED,
-            state=LivingStates.IDLE,
+            state=LivingStates.SPAWN,
             hp=100,
         )
 

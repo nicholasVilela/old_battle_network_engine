@@ -19,6 +19,9 @@ class Button:
                 self.state = ButtonStates.PRESSED
             elif self.event.type == pygame.KEYUP and self.event.key == self.key and (self.state == ButtonStates.PRESSED or self.state == ButtonStates.HOLDING):
                 self.state = ButtonStates.RELEASED
+        elif pygame.key.get_pressed()[self.key]:
+            print('ahh')
+            self.state = ButtonStates.HOLDING
         
             self.event = None
 

@@ -5,7 +5,8 @@ from config import CONTROLLER
 
 
 class BaseScene:
-    def __init__(self, state=SceneStates.IDLE):
+    def __init__(self, name, state=SceneStates.IDLE):
+        self.name = name
         self.state = state
         self.layers = self.init_layers()
         self.entities = self.init_entities()
@@ -16,7 +17,7 @@ class BaseScene:
                 entity.update()
 
     def get_event(self, event):
-        resources['controller'].update_event(event)
+        pass
 
     def render(self):
         if self.state == SceneStates.ACTIVE:

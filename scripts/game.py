@@ -1,8 +1,10 @@
 import pygame
 import sys
 
-from enums import SceneStates
+from enums import SceneStates, ButtonStates, Scenes
 from const import COLORS
+from config import FPS
+from util import push_scene
 from resources import resources
 
 
@@ -23,7 +25,8 @@ class Game:
         self.running = True
 
         while self.running:
-            self.update()
+            dt = self.clock.tick(FPS)
+            self.update(dt)
             self.render()
 
             pygame.display.update()
@@ -33,15 +36,20 @@ class Game:
         sys.exit()
 
 
-    def update(self):
+    def update(self, dt):
+        resources['dt'] = dt
         self.active_scene = resources['scene_stack'][-1]
+
         self.update_events()
+        self.update_controller()
         self.update_scene()
 
     def update_events(self):
         for event in pygame.event.get():
             if (event.type == pygame.QUIT) or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 self.quit()
+
+            resources['controller'].update_event(event)
 
             self.active_scene.get_event(event)
 
@@ -50,6 +58,15 @@ class Game:
             self.next_scene()
 
         self.active_scene.update()
+
+    def update_controller(self):
+        resources['controller'].update()
+
+        if resources['controller'].start.state == ButtonStates.PRESSED:
+            if self.active_scene.name == Scenes.PAUSE:
+                resources['scene_stack'].pop()
+            else:
+                push_scene(Scenes.PAUSE)
 
 
     def next_scene(self):

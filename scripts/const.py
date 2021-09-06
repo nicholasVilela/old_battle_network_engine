@@ -24,7 +24,9 @@ SPRITES = {
     },
     'battlers': {
         'megaman': {
-            LivingStates.IDLE: '../assets/textures/megaman/IDLE_spritesheet.png'
+            LivingStates.SPAWN: '../assets/textures/megaman/SPAWN_spritesheet.png',
+            LivingStates.IDLE: '../assets/textures/megaman/IDLE_spritesheet.png',
+            LivingStates.MOVING: '../assets/textures/megaman/MOVING2_spritesheet.png',
         },
     }
 }
