@@ -9,7 +9,7 @@ class Scenes(Enum):
 
 class SceneStates(Enum):
     IDLE     = 0
-    ACTIVE  = 1
+    ACTIVE   = 1
     PAUSED   = 2
     FINISHED = 3
 
@@ -34,3 +34,24 @@ class ButtonStates(Enum):
     PRESSED  = 1
     HOLDING  = 2
     RELEASED = 3
+
+class ChipStates(Enum):
+    IDLE     = 0
+    RUNNING  = 1
+    FINISHED = 2
+
+class LivingAnimations(Enum):
+    SPAWN  = 0
+    IDLE   = 1
+    MOVING = 2
+    ATTACK = 3
+
+class PlayerAnimations(Enum):
+    SPAWN        = 0
+    IDLE         = 1
+    MOVING       = 2
+    ATTACK_SHOOT = 3
+    ATTACK_SLASH = 4
+    ATTACK_SWING = 5
+    ATTACK_THROW = 6
+    

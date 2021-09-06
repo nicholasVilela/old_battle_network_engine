@@ -78,14 +78,14 @@ class BattleScene(base_scene.BaseScene):
                     LivingStates.SPAWN: Animation(
                         name=LivingStates.SPAWN,
                         frame_count=18,
-                        frame_duration=30,
+                        frame_duration=40,
                         loop=False,
                         playing=True,
                     ),
                     LivingStates.IDLE: Animation(
                         name=LivingStates.IDLE,
                         frame_count=1,
-                        frame_duration=1,
+                        frame_duration=0,
                         loop=True,
                     ),
                     LivingStates.MOVING: Animation(
@@ -107,7 +107,37 @@ class BattleScene(base_scene.BaseScene):
             hp=100,
         )
 
+        mettaur = LivingEntity(
+            name='Mettaur',
+            sprite=AnimatedSprite(
+                path=SPRITES['battlers']['mettaur'],
+                layer=self.layers['battlers'],
+                size=Vec2(64, 64),
+                scale=2,
+                animations={
+                    LivingStates.IDLE: Animation(
+                        name=LivingStates.IDLE,
+                        frame_count=1,
+                        frame_duration=0,
+                        loop=True,
+                        playing=True
+                    )
+                },
+                entry_animation=LivingStates.IDLE
+            ),
+            position=Position(
+                _map=Vec2(4, 1),
+                world=map_to_world(Vec2(4, 1), 2),
+                offset=Vec2(-25, -95)
+            ),
+            group=self.entities['battlers_blue'],
+            state=LivingStates.IDLE,
+            team=Teams.BLUE,
+            hp=40
+        )
+
         to_spawn.append(megaman)
+        to_spawn.append(mettaur)
 
         for entity in to_spawn:
             self.spawn_entity(entity)

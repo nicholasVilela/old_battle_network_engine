@@ -28,6 +28,9 @@ SPRITES = {
             LivingStates.IDLE: '../assets/textures/megaman/IDLE_spritesheet.png',
             LivingStates.MOVING: '../assets/textures/megaman/MOVING2_spritesheet.png',
         },
+        'mettaur': {
+            LivingStates.IDLE: '../assets/textures/enemies/mettaur/IDLE_spritesheet.png',
+        },
     }
 }
 
