@@ -27,6 +27,7 @@ CONTROLLER = Controller(
     left=Button(pygame.K_LEFT),
     right=Button(pygame.K_RIGHT),
     b=Button(pygame.K_z),
+    a=Button(pygame.K_x),
     start=Button(pygame.K_RETURN),
 )
 

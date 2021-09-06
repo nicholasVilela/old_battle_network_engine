@@ -54,4 +54,20 @@ class PlayerAnimations(Enum):
     ATTACK_SLASH = 4
     ATTACK_SWING = 5
     ATTACK_THROW = 6
-    
+
+class SpellStates(Enum):
+    IDLE     = 0
+    RUNNING  = 1
+    FINISHED = 2
+
+class SpellTypes(Enum):
+    HITSCAN = 0
+
+class Stats(Enum):
+    HP            = 0
+    MOVE_SPEED    = 1
+    ATTACK_DAMAGE = 2
+    ATTACK_SPEED  = 3
+
+class Chips(Enum):
+    CANNON = 0

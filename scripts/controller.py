@@ -2,7 +2,7 @@ from copy import copy
 
 
 class Controller:
-    def __init__(self, up, down, left, right, b, start):
+    def __init__(self, up, down, left, right, b, a, start):
         self.buttons = []
 
         self.up = up
@@ -10,6 +10,7 @@ class Controller:
         self.left = left
         self.right = right
         self.b = b
+        self.a = a
         self.start = start
 
         self.buttons.append(self.up)
@@ -17,6 +18,7 @@ class Controller:
         self.buttons.append(self.left)
         self.buttons.append(self.right)
         self.buttons.append(self.b)
+        self.buttons.append(self.a)
         self.buttons.append(self.start)
         
     def update(self):

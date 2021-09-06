@@ -4,12 +4,16 @@ from const import COLORS, SPRITES
 from entities.entity import Entity
 from entities.living_entity import LivingEntity
 from entities.player_entity import PlayerEntity
+from entities.chip_entity import ChipEntity
+from entities.spell_entity import SpellEntity
 from sprite import Sprite, AnimatedSprite
 from vec2 import Vec2
 from util import map_to_world, tint_by_row, init_surface, is_red_team
 from position import Position
-from enums import LivingStates, Teams, TileStates
+from enums import LivingStates, Teams, TileStates, Stats, Chips, ChipStates, SpellTypes, SpellStates, Stats, PlayerAnimations
 from animation import Animation
+from resources import resources
+from living_stat import Stat
 
 
 class BattleScene(base_scene.BaseScene):
@@ -25,17 +29,28 @@ class BattleScene(base_scene.BaseScene):
             for entity in self.entities[key]:
                 entity.render()
 
+        for team in Teams:
+            for entity in resources[team]:
+                entity.render()
+
+    def update(self):
+        super().update()
+        for team in Teams:
+            for entity in resources[team]:
+                entity.update()
+
     def init_entities(self):
         return {
-            'map'     : [],
-            'battlers_red': [],
-            'battlers_blue': [],
+            'map'   : [],
+            'chips' : [],
+            'spells': [],
         }
 
     def init_layers(self):
         return {
             'map'     : init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
             'battlers': init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
+            'chips': init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
         }
 
 
@@ -74,24 +89,31 @@ class BattleScene(base_scene.BaseScene):
                 layer=self.layers['battlers'],
                 size=Vec2(64, 64),
                 scale=2,
+                entry_animation=PlayerAnimations.SPAWN,
                 animations={
-                    LivingStates.SPAWN: Animation(
-                        name=LivingStates.SPAWN,
+                    PlayerAnimations.SPAWN: Animation(
+                        name=PlayerAnimations.SPAWN,
                         frame_count=18,
                         frame_duration=40,
                         loop=False,
                         playing=True,
                     ),
-                    LivingStates.IDLE: Animation(
-                        name=LivingStates.IDLE,
+                    PlayerAnimations.IDLE: Animation(
+                        name=PlayerAnimations.IDLE,
                         frame_count=1,
                         frame_duration=0,
                         loop=True,
                     ),
-                    LivingStates.MOVING: Animation(
-                        name=LivingStates.MOVING,
+                    PlayerAnimations.MOVING: Animation(
+                        name=PlayerAnimations.MOVING,
                         frame_count=5,
                         frame_duration=40,
+                        loop=False,
+                    ),
+                    PlayerAnimations.ATTACK_SHOOT: Animation(
+                        name=PlayerAnimations.ATTACK_SHOOT,
+                        frame_count=5,
+                        frame_duration=85,
                         loop=False,
                     ),
                 },
@@ -101,10 +123,58 @@ class BattleScene(base_scene.BaseScene):
                 world=map_to_world(Vec2(1, 1), 2),
                 offset=Vec2(-22, -90)
             ),
-            group=self.entities['battlers_red'],
+            group=resources[Teams.RED],
             team=Teams.RED,
             state=LivingStates.SPAWN,
-            hp=100,
+            stats={
+                Stats.HP: Stat(
+                    _type=Stats.HP,
+                    value=100
+                ),
+                Stats.MOVE_SPEED: Stat(
+                    _type=Stats.MOVE_SPEED,
+                    value=30
+                )
+            },
+            chips=[
+                ChipEntity(
+                    name=Chips.CANNON,
+                    sprite=AnimatedSprite(
+                        path=SPRITES['chips'][Chips.CANNON],
+                        layer=self.layers['chips'],
+                        size=Vec2(64, 64),
+                        scale=2,
+                        animations={
+                            ChipStates.RUNNING: Animation(
+                                name=ChipStates.RUNNING,
+                                frame_count=9,
+                                frame_duration=50,
+                            ), 
+                        },
+                        entry_animation=ChipStates.RUNNING,
+                    ),
+                    position=Position(
+                        _map=Vec2(0, 0),
+                        world=Vec2(0, 0),
+                        offset=Vec2(60, -90),
+                    ),
+                    group=self.entities['chips'],
+                    spells=[
+                        SpellEntity(
+                            name=Chips.CANNON,
+                            sprite=None,
+                            position=Position(),
+                            group=self.entities['spells'],
+                            state=SpellStates.IDLE,
+                            _type=SpellTypes.HITSCAN,
+                            modifier=-40,
+                            stat=Stats.HP,
+                            affected=[Vec2(1,0), Vec2(2,0), Vec2(3,0), Vec2(4,0), Vec2(5,0)],
+                            team=Teams.BLUE,
+                        ),
+                    ]
+                )
+            ]
         )
 
         mettaur = LivingEntity(
@@ -130,10 +200,15 @@ class BattleScene(base_scene.BaseScene):
                 world=map_to_world(Vec2(4, 1), 2),
                 offset=Vec2(-25, -95)
             ),
-            group=self.entities['battlers_blue'],
+            group=resources[Teams.BLUE],
             state=LivingStates.IDLE,
             team=Teams.BLUE,
-            hp=40
+            stats={
+                Stats.HP: Stat(
+                    _type=Stats.HP,
+                    value=40,
+                )
+            },
         )
 
         to_spawn.append(megaman)

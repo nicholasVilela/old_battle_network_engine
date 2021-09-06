@@ -32,6 +32,9 @@ def check_position(position, team):
 
     return False
 
+def check_spell_position(position):
+    return position.y >= 0 and position.y < MAP['height'] and position.x >= 0 and position.x < MAP['width']
+
 def is_red_team(x):
     return x >= 0 and x < (MAP['width'] / 2)
 

@@ -16,6 +16,7 @@ class Animation:
         self.playing = playing
 
     def play(self):
+        self.frame = 0
         self.finished = False
         self.playing = True
 
@@ -23,7 +24,7 @@ class Animation:
         self.playing = False
 
     def update(self):
-        if not self.playing:
+        if not self.playing or self.frame_count == 1:
             return
 
         if self.finished and not self.loop:
@@ -37,4 +38,6 @@ class Animation:
                 self.frame += 1
             else:
                 self.finished = True
-                self.frame = 0
+
+                if self.loop:
+                    self.play()

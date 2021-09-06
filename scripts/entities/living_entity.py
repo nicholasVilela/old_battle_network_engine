@@ -1,20 +1,21 @@
 from entities.entity import Entity
 from util import check_position, map_to_world
-from enums import LivingStates
+from enums import LivingStates, Stats, PlayerAnimations
 
 
 class LivingEntity(Entity):
-    def __init__(self, name, sprite, position, group, team, state=LivingStates.SPAWN, hp=1):
+    def __init__(self, name, sprite, position, group, team, stats, state=LivingStates.SPAWN, chips=[]):
         super().__init__(name, sprite, position, group)
         self.team = team
+        self.stats = stats
         self.state = state
-        self.hp = hp
+        self.chips = chips
 
     def update(self):
         self.check_alive()
 
     def check_alive(self):
-        if self.hp <= 0:
+        if self.stats[Stats.HP].value <= 0:
             self.delete()
 
     def change_state(self, target_state, target_animation):
@@ -31,7 +32,7 @@ class LivingEntity(Entity):
         is_valid = check_position(target_position, self.team)
 
         if is_valid:
-            self.change_state(LivingStates.MOVING, LivingStates.MOVING)
+            self.change_state(LivingStates.MOVING, PlayerAnimations.MOVING)
             self.position.map = target_position
             self.position.world = map_to_world(self.position.map, self.sprite.scale)
 

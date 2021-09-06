@@ -30,7 +30,7 @@ class Sprite:
 
 
 class AnimatedSprite:
-    def __init__(self, path, layer, size, scale, tint=RGB(255, 255, 255), animations={}, entry_animation=LivingStates.SPAWN):
+    def __init__(self, path, layer, size, scale, entry_animation, tint=RGB(255, 255, 255), animations={}):
         self.animations = animations
         self.animation = self.animations[entry_animation]
 
