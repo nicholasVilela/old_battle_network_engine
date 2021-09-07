@@ -9,6 +9,7 @@ class ChipEntity(Entity):
         self.spells = spells
         self.active_spell = spells[0]
         self.delete_on_complete = False
+        self.sprite.animation.play()
 
     def activate(self, battler):
         if self.state == ChipStates.IDLE:

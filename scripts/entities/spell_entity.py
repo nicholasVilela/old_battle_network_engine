@@ -5,14 +5,14 @@ from resources import resources
 
 
 class SpellEntity(Entity):
-    def __init__(self, name, sprite, position, group, state, _type, modifier, stat, affected, team):
+    def __init__(self, name, sprite, position, group, state, _type, modifier, stat, affected, enemy_team):
         super().__init__(name, sprite, position, group)
         self.state = state
         self.type = _type
         self.modifier = modifier
         self.stat = stat
         self.affected = affected
-        self.team = team
+        self.enemy_team = enemy_team
 
     def run(self):
         if self.state == SpellStates.IDLE:
@@ -30,7 +30,7 @@ class SpellEntity(Entity):
                     is_valid = check_spell_position(tile_position)
 
                     if is_valid:
-                        for entity in resources[self.team]:
+                        for entity in resources[self.enemy_team]:
                             if entity.position.map == tile_position:
                                 self.on_hit(entity)
 

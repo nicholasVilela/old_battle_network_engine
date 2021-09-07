@@ -26,7 +26,7 @@ SPRITES = {
         'megaman': {
             PlayerAnimations.SPAWN: '../assets/textures/megaman/SPAWN_spritesheet.png',
             PlayerAnimations.IDLE: '../assets/textures/megaman/IDLE_spritesheet.png',
-            PlayerAnimations.MOVING: '../assets/textures/megaman/MOVING2_spritesheet.png',
+            PlayerAnimations.MOVING: '../assets/textures/megaman/MOVING_spritesheet.png',
             PlayerAnimations.ATTACK_SHOOT: '../assets/textures/megaman/ATTACK_SHOOT_spritesheet.png',
             PlayerAnimations.ATTACK_SHOOT_HEAVY: '../assets/textures/megaman/ATTACK_SHOOT_HEAVY_spritesheet.png',
         },
@@ -36,6 +36,7 @@ SPRITES = {
     },
     'chips': {
         Chips.CANNON: {
+            ChipStates.IDLE: '../assets/textures/chips/cannon/small_icon.png',
             ChipStates.RUNNING: '../assets/textures/chips/cannon/RUNNING_spritesheet.png',
         },
     },

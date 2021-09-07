@@ -15,6 +15,7 @@ from enums import LivingStates, Teams, TileStates, Stats, Chips, ChipStates, Spe
 from animation import Animation
 from resources import resources
 from living_stat import Stat
+import chips.cannon as cannon_chip
 
 
 class BattleScene(base_scene.BaseScene):
@@ -149,43 +150,7 @@ class BattleScene(base_scene.BaseScene):
                 )
             },
             chips=[
-                ChipEntity(
-                    name=Chips.CANNON,
-                    sprite=AnimatedSprite(
-                        path=SPRITES['chips'][Chips.CANNON],
-                        layer=self.layers['chips'],
-                        size=Vec2(64, 64),
-                        scale=2,
-                        animations={
-                            ChipStates.RUNNING: Animation(
-                                name=ChipStates.RUNNING,
-                                frame_count=9,
-                                frame_duration=50,
-                            ), 
-                        },
-                        entry_animation=ChipStates.RUNNING,
-                    ),
-                    position=Position(
-                        _map=Vec2(0, 0),
-                        world=Vec2(0, 0),
-                        offset=Vec2(54, -90),
-                    ),
-                    group=self.entities['chips'],
-                    spells=[
-                        SpellEntity(
-                            name=Chips.CANNON,
-                            sprite=None,
-                            position=Position(),
-                            group=self.entities['spells'],
-                            state=SpellStates.IDLE,
-                            _type=SpellTypes.HITSCAN,
-                            modifier=-40,
-                            stat=Stats.HP,
-                            affected=[Vec2(1,0), Vec2(2,0), Vec2(3,0), Vec2(4,0), Vec2(5,0)],
-                            team=Teams.BLUE,
-                        ),
-                    ]
-                )
+                cannon_chip.generate(self.entities['chips'], self.entities['spells'], self.layers['chips'], Teams.BLUE)
             ]
         )
 

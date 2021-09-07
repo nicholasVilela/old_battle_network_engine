@@ -49,7 +49,7 @@ class PlayerEntity(LivingEntity):
         if self.state == LivingStates.IDLE:
             if resources['controller'].a.state == ButtonStates.PRESSED:
                 self.sprite.animations[PlayerAnimations.ATTACK_SHOOT_HEAVY].add_instruction(frame=3, function=self.chips[0].activate, params=[self])
-                print(self.sprite.animations[PlayerAnimations.ATTACK_SHOOT_HEAVY].instructions)
                 self.chips[0].sprite.animations[ChipStates.RUNNING].add_instruction(frame=7, function=self.chips[0].active_spell.check_if_hit, params=[])
+                self.chips.pop(0)
 
                 self.change_state(LivingStates.ATTACKING, PlayerAnimations.ATTACK_SHOOT_HEAVY)
