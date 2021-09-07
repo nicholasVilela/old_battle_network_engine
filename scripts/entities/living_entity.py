@@ -32,7 +32,6 @@ class LivingEntity(Entity):
         is_valid = check_position(target_position, self.team)
 
         if is_valid:
-            self.change_state(LivingStates.MOVING, PlayerAnimations.MOVING)
             self.position.map = target_position
             self.position.world = map_to_world(self.position.map, self.sprite.scale)
 

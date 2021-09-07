@@ -22,8 +22,9 @@ class SpellEntity(Entity):
     def update(self):
         if self.state == SpellStates.FINISHED:
             self.delete()
-        elif self.state == SpellStates.RUNNING:
-            if self.type == SpellTypes.HITSCAN:
+
+    def check_if_hit(self):
+        if self.type == SpellTypes.HITSCAN:
                 for pos in self.affected:
                     tile_position = self.position.map + pos
                     is_valid = check_spell_position(tile_position)
@@ -36,7 +37,6 @@ class SpellEntity(Entity):
                 self.state = SpellStates.FINISHED
 
     def on_hit(self, entity):
-        print(entity.stats[self.stat].value)
         entity.stats[self.stat].change(self.modifier)
 
     def delete(self):

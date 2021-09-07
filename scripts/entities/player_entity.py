@@ -1,9 +1,10 @@
 from copy import copy
 
 from entities.living_entity import LivingEntity
-from enums import ButtonStates, Scenes, LivingStates, PlayerAnimations
-from util import push_scene
+from enums import ButtonStates, Scenes, LivingStates, PlayerAnimations, ChipStates
+from util import push_scene, check_position
 from resources import resources
+from instruction import Instruction
 
 
 class PlayerEntity(LivingEntity):
@@ -23,11 +24,11 @@ class PlayerEntity(LivingEntity):
         self.update_attacks()
 
     def update_movement(self):
-        controller = resources['controller']
-        target_position = copy(self.position.map)
-
         if self.state != LivingStates.IDLE:
             return
+
+        controller = resources['controller']
+        target_position = copy(self.position.map)
 
         if controller.up.state == (ButtonStates.PRESSED or ButtonStates.HOLDING):
             target_position.y -= 1
@@ -39,10 +40,16 @@ class PlayerEntity(LivingEntity):
             target_position.x += 1
 
         if target_position != self.position.map:
-            self.change_position(target_position)
+            is_valid = check_position(target_position, self.team)
+            if is_valid:
+                self.sprite.animations[PlayerAnimations.MOVING].add_instruction(frame=3, function=self.change_position, params=[target_position])
+                self.change_state(LivingStates.MOVING, PlayerAnimations.MOVING)
 
     def update_attacks(self):
         if self.state == LivingStates.IDLE:
             if resources['controller'].a.state == ButtonStates.PRESSED:
-                self.change_state(LivingStates.ATTACKING, PlayerAnimations.ATTACK_SHOOT)
-                self.chips[0].activate(self)
+                self.sprite.animations[PlayerAnimations.ATTACK_SHOOT_HEAVY].add_instruction(frame=3, function=self.chips[0].activate, params=[self])
+                print(self.sprite.animations[PlayerAnimations.ATTACK_SHOOT_HEAVY].instructions)
+                self.chips[0].sprite.animations[ChipStates.RUNNING].add_instruction(frame=7, function=self.chips[0].active_spell.check_if_hit, params=[])
+
+                self.change_state(LivingStates.ATTACKING, PlayerAnimations.ATTACK_SHOOT_HEAVY)

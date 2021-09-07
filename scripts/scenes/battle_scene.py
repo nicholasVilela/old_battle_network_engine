@@ -6,6 +6,7 @@ from entities.living_entity import LivingEntity
 from entities.player_entity import PlayerEntity
 from entities.chip_entity import ChipEntity
 from entities.spell_entity import SpellEntity
+from instruction import Instruction
 from sprite import Sprite, AnimatedSprite
 from vec2 import Vec2
 from util import map_to_world, tint_by_row, init_surface, is_red_team
@@ -97,24 +98,35 @@ class BattleScene(base_scene.BaseScene):
                         frame_duration=40,
                         loop=False,
                         playing=True,
+                        instructions=[],
                     ),
                     PlayerAnimations.IDLE: Animation(
                         name=PlayerAnimations.IDLE,
                         frame_count=1,
                         frame_duration=0,
                         loop=True,
+                        instructions=[],
                     ),
                     PlayerAnimations.MOVING: Animation(
                         name=PlayerAnimations.MOVING,
                         frame_count=5,
                         frame_duration=40,
                         loop=False,
+                        instructions=[],
                     ),
                     PlayerAnimations.ATTACK_SHOOT: Animation(
                         name=PlayerAnimations.ATTACK_SHOOT,
                         frame_count=5,
-                        frame_duration=85,
+                        frame_duration=50,
                         loop=False,
+                        instructions=[],
+                    ),
+                    PlayerAnimations.ATTACK_SHOOT_HEAVY: Animation(
+                        name=PlayerAnimations.ATTACK_SHOOT_HEAVY,
+                        frame_count=13,
+                        frame_duration=50,
+                        loop=False,
+                        instructions=[],
                     ),
                 },
             ),
@@ -156,7 +168,7 @@ class BattleScene(base_scene.BaseScene):
                     position=Position(
                         _map=Vec2(0, 0),
                         world=Vec2(0, 0),
-                        offset=Vec2(60, -90),
+                        offset=Vec2(54, -90),
                     ),
                     group=self.entities['chips'],
                     spells=[
@@ -219,3 +231,6 @@ class BattleScene(base_scene.BaseScene):
 
     def spawn_entity(self, entity):
         entity.group.append(entity)
+
+    def print_ah(self):
+        print('ah')

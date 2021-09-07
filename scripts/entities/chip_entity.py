@@ -7,6 +7,7 @@ class ChipEntity(Entity):
         super().__init__(name, sprite, position, group)
         self.state = state
         self.spells = spells
+        self.active_spell = spells[0]
         self.delete_on_complete = False
 
     def activate(self, battler):
@@ -22,6 +23,7 @@ class ChipEntity(Entity):
                 spell.position = self.position
 
                 spell.run()
+                self.active_spell = spell
 
     def update(self):
         if self.state == ChipStates.RUNNING:

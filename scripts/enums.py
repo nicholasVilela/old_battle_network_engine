@@ -47,13 +47,14 @@ class LivingAnimations(Enum):
     ATTACK = 3
 
 class PlayerAnimations(Enum):
-    SPAWN        = 0
-    IDLE         = 1
-    MOVING       = 2
-    ATTACK_SHOOT = 3
-    ATTACK_SLASH = 4
-    ATTACK_SWING = 5
-    ATTACK_THROW = 6
+    SPAWN              = 0
+    IDLE               = 1
+    MOVING             = 2
+    ATTACK_SHOOT       = 3
+    ATTACK_SHOOT_HEAVY = 4
+    ATTACK_SLASH       = 5
+    ATTACK_SWING       = 6
+    ATTACK_THROW       = 7
 
 class SpellStates(Enum):
     IDLE     = 0
@@ -71,3 +72,8 @@ class Stats(Enum):
 
 class Chips(Enum):
     CANNON = 0
+
+class InstructionStates(Enum):
+    IDLE     = 0
+    RUNNING  = 1
+    FINISHED = 2
