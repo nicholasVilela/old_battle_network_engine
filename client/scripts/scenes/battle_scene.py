@@ -150,7 +150,7 @@ class BattleScene(base_scene.BaseScene):
                 )
             },
             chips=[
-                cannon_chip.generate(self.entities['chips'], self.entities['spells'], self.layers['chips'], Teams.BLUE)
+                cannon_chip.generate(self.entities['chips'], self.entities['spells'], self.layers['chips'], Teams.BLUE, Position(_map=Vec2(1, 1), world=map_to_world(Vec2(1, 1), 2)))
             ]
         )
 

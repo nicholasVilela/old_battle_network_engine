@@ -8,7 +8,7 @@ from position import Position
 from enums import Chips, ChipStates, SpellStates, SpellTypes, Stats
 
 
-def generate(chip_group, spell_group, chip_layer, enemy_team):
+def generate(chip_group, spell_group, chip_layer, enemy_team, entry_position):
     return ChipEntity(
         name=Chips.CANNON,
         sprite=AnimatedSprite(
@@ -21,6 +21,7 @@ def generate(chip_group, spell_group, chip_layer, enemy_team):
                     name=ChipStates.IDLE,
                     frame_count=1,
                     frame_duration=0,
+                    offset=Vec2(-20, 0)
                 ),
                 ChipStates.RUNNING: Animation(
                     name=ChipStates.RUNNING,
@@ -31,8 +32,8 @@ def generate(chip_group, spell_group, chip_layer, enemy_team):
             entry_animation=ChipStates.IDLE,
         ),
         position=Position(
-            _map=Vec2(0, 0),
-            world=Vec2(0, 0),
+            _map=Vec2(entry_position.map.x, entry_position.map.y),
+            world=Vec2(entry_position.world.x, entry_position.world.y),
             offset=Vec2(54, -90),
         ),
         group=chip_group,

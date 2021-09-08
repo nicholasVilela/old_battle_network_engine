@@ -46,7 +46,7 @@ class AnimatedSprite:
     def render(self, position):
         self.animation.update()
         self.display = self.load_display()
-        self.layer.blit(self.display, (position.world.x + position.offset.x, position.world.y + position.offset.y))
+        self.layer.blit(self.display, (position.world.x + position.offset.x + self.animation.offset.x, position.world.y + position.offset.y + self.animation.offset.y))
 
     def load_images(self):
         images = {}

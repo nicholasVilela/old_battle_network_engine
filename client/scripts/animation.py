@@ -1,10 +1,11 @@
 from resources import resources
 from enums import InstructionStates
 from instruction import Instruction
+from vec2 import Vec2
 
 
 class Animation:
-    def __init__(self, name, frame_count, frame_duration, loop=False, playing=False, instructions=[]):
+    def __init__(self, name, frame_count, frame_duration, loop=False, playing=False, instructions=[], offset=Vec2(0, 0)):
         self.name = name
 
         self.frame_count = frame_count
@@ -18,6 +19,8 @@ class Animation:
         self.playing = playing
 
         self.instructions = instructions
+
+        self.offset = offset
 
     def play(self):
         self.frame = 0

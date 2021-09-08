@@ -11,13 +11,13 @@ class ChipEntity(Entity):
         self.delete_on_complete = False
         self.sprite.animation.play()
 
-    def activate(self, battler):
+        self.group.append(self)
+
+    def activate(self):
         if self.state == ChipStates.IDLE:
             self.state = ChipStates.RUNNING
 
-            self.group.append(self)
-            self.position.map = battler.position.map
-            self.position.world = battler.position.world
+            self.sprite.change_animation(ChipStates.RUNNING)
             self.sprite.animation.play()
 
             for spell in self.spells:

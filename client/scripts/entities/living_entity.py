@@ -35,5 +35,9 @@ class LivingEntity(Entity):
             self.position.map = target_position
             self.position.world = map_to_world(self.position.map, self.sprite.scale)
 
+            for chip in self.chips:
+                chip.position.map = self.position.map
+                chip.position.world = self.position.world
+
     def delete(self):
         self.group.remove(self)
