@@ -4,6 +4,7 @@ from const import COLORS, SPRITES
 from entities.entity import Entity
 from entities.living_entity import LivingEntity
 from entities.player_entity import PlayerEntity
+from entities.tile_entity import TileEntity
 from entities.chip_entity import ChipEntity
 from entities.spell_entity import SpellEntity
 from instruction import Instruction
@@ -16,6 +17,7 @@ from animation import Animation
 from resources import resources
 from living_stat import Stat
 import chips.cannon as cannon_chip
+import chips.sword as sword_chip
 
 
 class BattleScene(base_scene.BaseScene):
@@ -24,9 +26,17 @@ class BattleScene(base_scene.BaseScene):
         self.init_map()
         self.init_battlers()
 
-    def render(self):
+    def render(self, screen):
         for key in self.layers:
-            self.layers[key].fill(COLORS['black'])
+            if key == 'battlers':
+                for pos in self.layers[key]:
+                    self.layers[key][pos].fill(COLORS['black'])
+            else:
+                self.layers[key].fill(COLORS['black'])
+
+        for tile in resources['map']:
+            tile.render()
+                
         for key in self.entities:
             for entity in self.entities[key]:
                 entity.render()
@@ -35,24 +45,43 @@ class BattleScene(base_scene.BaseScene):
             for entity in resources[team]:
                 entity.render()
 
+        for key in self.layers:
+            if key == 'battlers':
+                for pos in self.layers[key]:
+                    screen.blit(self.layers[key][pos], (0, 0))
+            else:
+                screen.blit(self.layers[key], (0, 0))
+
     def update(self):
         super().update()
+        for tile in resources['map']:
+            tile.update()
+
         for team in Teams:
             for entity in resources[team]:
                 entity.update()
 
+
     def init_entities(self):
         return {
-            'map'   : [],
             'chips' : [],
             'spells': [],
         }
 
     def init_layers(self):
+        battler_layers = {}
+
+        for y in range(MAP['height']):
+            for x in range(MAP['width']):
+                battler_layers[f'({x}, {y})'] = init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black'])
+
         return {
             'map'     : init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
-            'battlers': init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
-            'chips': init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
+            'red_battlers': init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
+            'blue_battlers': init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
+            'battlers': battler_layers,
+            # 'battlers': init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
+            'chips'   : init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
         }
 
 
@@ -63,7 +92,7 @@ class BattleScene(base_scene.BaseScene):
                 is_red = is_red_team(x)
                 tint = tint_by_row(y, is_red, MAP['height'])
 
-                tile = Entity(
+                tile = TileEntity(
                     name=f'tile_({x}, {y})',
                     sprite=Sprite(
                         path=SPRITES['tiles']['red' if is_red else 'blue'][TileStates.BASE],
@@ -76,7 +105,7 @@ class BattleScene(base_scene.BaseScene):
                         _map=Vec2(x, y),
                         world=map_to_world(Vec2(x, y), scale)
                     ),
-                    group=self.entities['map'],
+                    group=resources['map'],
                 )
 
                 self.spawn_entity(tile)
@@ -88,7 +117,7 @@ class BattleScene(base_scene.BaseScene):
             name='Megaman',
             sprite=AnimatedSprite(
                 path=SPRITES['battlers']['megaman'],
-                layer=self.layers['battlers'],
+                layers=self.layers['battlers'],
                 size=Vec2(64, 64),
                 scale=2,
                 entry_animation=PlayerAnimations.SPAWN,
@@ -129,6 +158,13 @@ class BattleScene(base_scene.BaseScene):
                         loop=False,
                         instructions=[],
                     ),
+                    PlayerAnimations.ATTACK_SLASH: Animation(
+                        name=PlayerAnimations.ATTACK_SLASH,
+                        frame_count=7,
+                        frame_duration=500,
+                        loop=False,
+                        instructions=[],
+                    ),
                 },
             ),
             position=Position(
@@ -150,7 +186,8 @@ class BattleScene(base_scene.BaseScene):
                 )
             },
             chips=[
-                cannon_chip.generate(self.entities['chips'], self.entities['spells'], self.layers['chips'], Teams.BLUE, Position(_map=Vec2(1, 1), world=map_to_world(Vec2(1, 1), 2)))
+                # sword_chip.generate(self.entities['chips'], self.entities['spells'], self.layers['chips'], Teams.BLUE, Position(_map=Vec2(1, 1), world=map_to_world(Vec2(1, 1), 2))),
+                # cannon_chip.generate(self.entities['chips'], self.entities['spells'], self.layers['chips'], Teams.BLUE, Position(_map=Vec2(1, 1), world=map_to_world(Vec2(1, 1), 2))),
             ]
         )
 
@@ -158,7 +195,7 @@ class BattleScene(base_scene.BaseScene):
             name='Mettaur',
             sprite=AnimatedSprite(
                 path=SPRITES['battlers']['mettaur'],
-                layer=self.layers['battlers'],
+                layers=self.layers['battlers'],
                 size=Vec2(64, 64),
                 scale=2,
                 animations={
@@ -173,8 +210,8 @@ class BattleScene(base_scene.BaseScene):
                 entry_animation=LivingStates.IDLE
             ),
             position=Position(
-                _map=Vec2(4, 1),
-                world=map_to_world(Vec2(4, 1), 2),
+                _map=Vec2(3, 1),
+                world=map_to_world(Vec2(3, 1), 2),
                 offset=Vec2(-25, -95)
             ),
             group=resources[Teams.BLUE],
@@ -196,6 +233,3 @@ class BattleScene(base_scene.BaseScene):
 
     def spawn_entity(self, entity):
         entity.group.append(entity)
-
-    def print_ah(self):
-        print('ah')

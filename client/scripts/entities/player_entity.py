@@ -48,8 +48,14 @@ class PlayerEntity(LivingEntity):
     def update_attacks(self):
         if self.state == LivingStates.IDLE:
             if len(self.chips) > 0 and resources['controller'].a.state == ButtonStates.PRESSED:
-                self.sprite.animations[PlayerAnimations.ATTACK_SHOOT_HEAVY].add_instruction(frame=3, function=self.chips[0].activate, params=[])
-                self.chips[0].sprite.animations[ChipStates.RUNNING].add_instruction(frame=7, function=self.chips[0].active_spell.check_if_hit, params=[])
-                self.chips.pop(0)
+                chip = self.chips[-1]
 
-                self.change_state(LivingStates.ATTACKING, PlayerAnimations.ATTACK_SHOOT_HEAVY)
+                if chip.animation_type == PlayerAnimations.ATTACK_SHOOT_HEAVY:
+                    self.sprite.animations[chip.animation_type].add_instruction(frame=3, function=chip.activate, params=[])
+                    chip.sprite.animations[ChipStates.RUNNING].add_instruction(frame=7, function=chip.active_spell.check_if_hit, params=[])
+                elif chip.animation_type == PlayerAnimations.ATTACK_SLASH:
+                    self.sprite.animations[chip.animation_type].add_instruction(frame=2, function=chip.activate, params=[])
+                    chip.sprite.animations[ChipStates.RUNNING].add_instruction(frame=1, function=chip.active_spell.check_if_hit, params=[])
+
+                self.chips.pop()
+                self.change_state(LivingStates.ATTACKING, chip.animation_type)

@@ -3,13 +3,14 @@ from enums import ChipStates
 
 
 class ChipEntity(Entity):
-    def __init__(self, name, sprite, position, group, state=ChipStates.IDLE, spells=[]):
+    def __init__(self, name, sprite, position, group, animation_type, state=ChipStates.IDLE, spells=[]):
         super().__init__(name, sprite, position, group)
         self.state = state
         self.spells = spells
         self.active_spell = spells[0]
         self.delete_on_complete = False
         self.sprite.animation.play()
+        self.animation_type = animation_type
 
         self.group.append(self)
 
@@ -18,7 +19,6 @@ class ChipEntity(Entity):
             self.state = ChipStates.RUNNING
 
             self.sprite.change_animation(ChipStates.RUNNING)
-            self.sprite.animation.play()
 
             for spell in self.spells:
                 spell.position = self.position

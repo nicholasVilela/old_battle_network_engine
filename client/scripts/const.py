@@ -29,6 +29,7 @@ SPRITES = {
             PlayerAnimations.MOVING: '../assets/textures/megaman/MOVING_spritesheet.png',
             PlayerAnimations.ATTACK_SHOOT: '../assets/textures/megaman/ATTACK_SHOOT_spritesheet.png',
             PlayerAnimations.ATTACK_SHOOT_HEAVY: '../assets/textures/megaman/ATTACK_SHOOT_HEAVY_spritesheet.png',
+            PlayerAnimations.ATTACK_SLASH: '../assets/textures/megaman/ATTACK_SLASH_spritesheet.png',
         },
         'mettaur': {
             LivingStates.IDLE: '../assets/textures/enemies/mettaur/IDLE_spritesheet.png',
@@ -39,6 +40,10 @@ SPRITES = {
             ChipStates.IDLE: '../assets/textures/chips/cannon/small_icon.png',
             ChipStates.RUNNING: '../assets/textures/chips/cannon/RUNNING_spritesheet.png',
         },
+        Chips.SWORD: {
+            ChipStates.IDLE: '../assets/textures/chips/sword/small_icon.png',
+            ChipStates.RUNNING: '../assets/textures/chips/sword/RUNNING_spritesheet.png'
+        }
     },
 }
 

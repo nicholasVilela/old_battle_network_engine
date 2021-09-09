@@ -30,12 +30,12 @@ class Sprite:
 
 
 class AnimatedSprite:
-    def __init__(self, path, layer, size, scale, entry_animation, tint=RGB(255, 255, 255), animations={}):
+    def __init__(self, path, layers, size, scale, entry_animation, tint=RGB(255, 255, 255), animations={}):
         self.animations = animations
         self.animation = self.animations[entry_animation]
 
         self.path = path
-        self.layer = layer
+        self.layers = layers
         self.size = size
         self.scale = scale
         self.tint = tint
@@ -46,7 +46,8 @@ class AnimatedSprite:
     def render(self, position):
         self.animation.update()
         self.display = self.load_display()
-        self.layer.blit(self.display, (position.world.x + position.offset.x + self.animation.offset.x, position.world.y + position.offset.y + self.animation.offset.y))
+        
+        self.layers[f'({position.map.x}, {position.map.y})'].blit(self.display, (position.world.x + position.offset.x + self.animation.offset.x, position.world.y + position.offset.y + self.animation.offset.y))
 
     def load_images(self):
         images = {}

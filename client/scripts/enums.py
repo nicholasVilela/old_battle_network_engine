@@ -25,9 +25,9 @@ class LivingStates(Enum):
     STAGGERED = 4
 
 class TileStates(Enum):
-    BASE   = 0
-    CRACK  = 1
-    BROKEN = 2
+    BASE    = 0
+    CRACKED = 1
+    BROKEN  = 2
 
 class ButtonStates(Enum):
     IDLE     = 0
@@ -72,6 +72,7 @@ class Stats(Enum):
 
 class Chips(Enum):
     CANNON = 0
+    SWORD  = 1
 
 class InstructionStates(Enum):
     IDLE     = 0

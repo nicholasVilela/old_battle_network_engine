@@ -1,7 +1,7 @@
 import pygame
 
 from scenes import base_scene
-from enums import SceneStates
+from enums import SceneStates, Scenes
 from resources import resources
 from util import init_surface
 from vec2 import Vec2
@@ -17,6 +17,8 @@ class PauseScene(base_scene.BaseScene):
 
     def render(self):
         super().render()
+
+        resources['scenes'][Scenes.BATTLE].render()
 
         self.layers['base'].blit(self.text, (200, 220))
 

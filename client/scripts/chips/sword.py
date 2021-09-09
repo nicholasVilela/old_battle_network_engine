@@ -10,11 +10,11 @@ from enums import Chips, ChipStates, SpellStates, SpellTypes, Stats, PlayerAnima
 
 def generate(chip_group, spell_group, layers, enemy_team, entry_position):
     return ChipEntity(
-        name=Chips.CANNON,
+        name=Chips.SWORD,
         sprite=AnimatedSprite(
-            path=SPRITES['chips'][Chips.CANNON],
+            path=SPRITES['chips'][Chips.SWORD],
             layers=layers,
-            size=Vec2(64, 64),
+            size=Vec2(64, 80),
             scale=2,
             animations={
                 ChipStates.IDLE: Animation(
@@ -25,8 +25,8 @@ def generate(chip_group, spell_group, layers, enemy_team, entry_position):
                 ),
                 ChipStates.RUNNING: Animation(
                     name=ChipStates.RUNNING,
-                    frame_count=9,
-                    frame_duration=50,
+                    frame_count=6,
+                    frame_duration=500,
                 ),
             },
             entry_animation=ChipStates.IDLE,
@@ -34,21 +34,21 @@ def generate(chip_group, spell_group, layers, enemy_team, entry_position):
         position=Position(
             _map=Vec2(entry_position.map.x, entry_position.map.y),
             world=Vec2(entry_position.world.x, entry_position.world.y),
-            offset=Vec2(54, -90),
+            offset=Vec2(-30, -100),
         ),
         group=chip_group,
-        animation_type=PlayerAnimations.ATTACK_SHOOT_HEAVY,
+        animation_type=PlayerAnimations.ATTACK_SLASH,
         spells=[
             SpellEntity(
-                name=Chips.CANNON,
+                name=Chips.SWORD,
                 sprite=None,
                 position=Position(),
                 group=spell_group,
                 state=SpellStates.IDLE,
                 _type=SpellTypes.HITSCAN,
-                modifier=-40,
+                modifier=-80,
                 stat=Stats.HP,
-                affected=[Vec2(1,0), Vec2(2,0), Vec2(3,0), Vec2(4,0), Vec2(5,0)],
+                affected=[Vec2(1,0)],
                 enemy_team=enemy_team,
             ),
         ]

@@ -80,8 +80,4 @@ class Game:
         self.render_scene()
 
     def render_scene(self):
-        self.active_scene.render()
-
-        for scene in resources['scene_stack']:
-            for key in scene.layers:
-                self.screen.blit(scene.layers[key], (0, 0))
+        self.active_scene.render(self.screen)

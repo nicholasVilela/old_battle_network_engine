@@ -19,14 +19,27 @@ class BaseScene:
     def get_event(self, event):
         pass
 
-    def render(self):
+    def render(self, screen):
         if self.state == SceneStates.ACTIVE:
             for key in self.layers:
                 self.layers[key].fill(COLORS['black'])
 
-            for key in self.entities:
-                for entity in self.entities[key]:
-                    entity.render()
+                for key in self.entities:
+                    for entity in self.entities[key]:
+                        entity.render()
+
+            for key in self.layers:
+                screen.blit(self.layers[key], (0, 0))
+                
+        # if self.state == SceneStates.ACTIVE:
+        #     for key in self.layers:
+        #         self.layers[key].fill(COLORS['black'])
+
+        #     for key in self.entities:
+        #         for entity in self.entities[key]:
+        #             entity.render()
+
+        # for key in self.layers
 
     def init_entities(self):
         return {}

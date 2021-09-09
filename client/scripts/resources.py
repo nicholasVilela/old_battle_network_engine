@@ -7,6 +7,7 @@ resources = {
     'scene_stack': [],
     'controller': CONTROLLER,
     'dt': 0,
+    'map': [],
     Teams.RED : [],
     Teams.BLUE: [],
 }
