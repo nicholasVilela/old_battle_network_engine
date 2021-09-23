@@ -1,15 +1,15 @@
 from enums import SceneStates
 from resources import resources
 from const import COLORS
-from config import CONTROLLER
 
 
 class BaseScene:
-    def __init__(self, name, state=SceneStates.IDLE):
+    def __init__(self, name, controller, state=SceneStates.IDLE):
         self.name = name
         self.state = state
         self.layers = self.init_layers()
         self.entities = self.init_entities()
+        self.controller = controller
 
     def update(self):
         for key in self.entities:

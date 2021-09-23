@@ -1,0 +1,10 @@
+---
+controller: {
+  up: K_UP,
+  down: K_DOWN,
+  left: K_LEFT,
+  right: K_RIGHT,
+  b: K_z,
+  a: K_x,
+  start: K_RETURN,
+}

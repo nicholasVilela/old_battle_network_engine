@@ -2,7 +2,6 @@ import pygame
 
 from resources import resources
 from enums import SceneStates
-from config import TILE, MAP
 from vec2 import Vec2
 from rgb import RGB
 from enums import Teams
@@ -12,31 +11,31 @@ def map_to_world(position, scale=1):
     offset_x = 0
     offset_y = 250
 
-    screen_x = offset_x + (TILE['surface_width'] * position.x * scale)
-    screen_y = offset_y + (TILE['surface_height'] * position.y * scale)
+    screen_x = offset_x + (resources['config'].game.panel.surface_size.width * position.x * scale)
+    screen_y = offset_y + (resources['config'].game.panel.surface_size.height * position.y * scale)
 
     return Vec2(screen_x, screen_y)
 
-def init_surface(screen_size, colorkey):
-    surface = pygame.Surface((screen_size.x, screen_size.y))
+def create_surface(size, colorkey):
+    surface = pygame.Surface((size.x, size.y))
     surface.set_colorkey(colorkey)
 
     return surface
 
 def check_position(position, team):
-    if position.y >= 0 and position.y < MAP['height']:
+    if position.y >= 0 and position.y < resources['config'].game.grid.height:
         if team == Teams.RED:
-            return position.x >= 0 and position.x < (MAP['width'] / 2)
+            return position.x >= 0 and position.x < (resources['config'].game.grid.width / 2)
         else:
             return False
 
     return False
 
 def check_spell_position(position):
-    return position.y >= 0 and position.y < MAP['height'] and position.x >= 0 and position.x < MAP['width']
+    return position.y >= 0 and position.y < resources['config'].game.grid.height and position.x >= 0 and position.x < resources['config'].game.grid.width
 
 def is_red_team(x):
-    return x >= 0 and x < (MAP['width'] / 2)
+    return x >= 0 and x < (resources['config'].game.grid.width / 2)
 
 def tint_by_row(row, is_red, row_limit):
     lightest = RGB(255, 255, 255)

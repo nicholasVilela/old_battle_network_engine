@@ -1,5 +1,4 @@
 from scenes import base_scene
-from config import MAP, WINDOW, CONTROLLER
 from const import COLORS, SPRITES
 from entities.entity import Entity
 from entities.living_entity import LivingEntity
@@ -10,14 +9,15 @@ from entities.spell_entity import SpellEntity
 from instruction import Instruction
 from sprite import Sprite, AnimatedSprite
 from vec2 import Vec2
-from util import map_to_world, tint_by_row, init_surface, is_red_team
+from util import map_to_world, tint_by_row, create_surface, is_red_team
 from position import Position
-from enums import LivingStates, Teams, TileStates, Stats, Chips, ChipStates, SpellTypes, SpellStates, Stats, PlayerAnimations
+from enums import LivingStates, Teams, TileStates, Stats, Chips, ChipStates, SpellTypes, SpellStates, Stats, PlayerAnimations, PublisherDataTypes
 from animation import Animation
 from resources import resources
 from living_stat import Stat
 import chips.cannon as cannon_chip
 import chips.sword as sword_chip
+from subscriber import Subscriber
 
 
 class BattleScene(base_scene.BaseScene):
@@ -71,26 +71,26 @@ class BattleScene(base_scene.BaseScene):
     def init_layers(self):
         battler_layers = {}
 
-        for y in range(MAP['height']):
-            for x in range(MAP['width']):
-                battler_layers[f'({x}, {y})'] = init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black'])
+        for y in range(resources['config'].game.grid.height):
+            for x in range(resources['config'].game.grid.width):
+                battler_layers[f'({x}, {y})'] = create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black'])
 
         return {
-            'map'     : init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
-            'red_battlers': init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
-            'blue_battlers': init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
+            'map'     : create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
+            'red_battlers': create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
+            'blue_battlers': create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
             'battlers': battler_layers,
             # 'battlers': init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
-            'chips'   : init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
+            'chips'   : create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
         }
 
 
     def init_map(self):
-        for y in range(0, MAP['height']):
-            for x in range(0, MAP['width']):
+        for y in range(0, resources['config'].game.grid.height):
+            for x in range(0, resources['config'].game.grid.width):
                 scale = 2
                 is_red = is_red_team(x)
-                tint = tint_by_row(y, is_red, MAP['height'])
+                tint = tint_by_row(y, is_red, resources['config'].game.grid.height)
 
                 tile = TileEntity(
                     name=f'tile_({x}, {y})',
@@ -188,7 +188,11 @@ class BattleScene(base_scene.BaseScene):
             chips=[
                 # sword_chip.generate(self.entities['chips'], self.entities['spells'], self.layers['chips'], Teams.BLUE, Position(_map=Vec2(1, 1), world=map_to_world(Vec2(1, 1), 2))),
                 # cannon_chip.generate(self.entities['chips'], self.entities['spells'], self.layers['chips'], Teams.BLUE, Position(_map=Vec2(1, 1), world=map_to_world(Vec2(1, 1), 2))),
-            ]
+            ],
+            subscriber=Subscriber(
+                broker=resources['broker'],
+                types=[PublisherDataTypes.CONTROLLER]
+            ),
         )
 
         mettaur = LivingEntity(

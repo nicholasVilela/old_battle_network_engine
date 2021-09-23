@@ -3,9 +3,8 @@ import pygame
 from scenes import base_scene
 from enums import SceneStates, Scenes
 from resources import resources
-from util import init_surface
+from util import create_surface
 from vec2 import Vec2
-from config import WINDOW
 from const import COLORS, FONTS
 
 
@@ -24,5 +23,5 @@ class PauseScene(base_scene.BaseScene):
 
     def init_layers(self):
         return {
-            'base': init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
+            'base': create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
         }

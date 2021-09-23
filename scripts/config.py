@@ -1,34 +1,26 @@
 import pygame
 
-from controller import Controller
-from button import Button
 
+class Rectangle:
+    def __init__(self, width: int, height: int):
+        self.width = width
+        self.height = height
 
-WINDOW = {
-    'width': 480,
-    'height': 480,
-}
+class PanelConfig:
+    def __init__(self, size: Rectangle, surface_size: Rectangle):
+        self.size = size
+        self.surface_size = surface_size
 
-MAP = {
-    'width': 6,
-    'height': 4,
-}
+class GameConfig:
+    def __init__(self, grid: Rectangle, panel: PanelConfig):
+        self.grid = grid
+        self.panel = panel
 
-TILE = {
-    'width': 40,
-    'height': 30,
-    'surface_width': 40,
-    'surface_height': 25,
-}
+class Config:
+    def __init__(self, title: str, window: Rectangle, scale: float, fps: int, game: GameConfig):
+        self.title = title
+        self.window = window
+        self.scale = scale
+        self.fps = fps
 
-CONTROLLER = Controller(
-    up=Button(pygame.K_UP),
-    down=Button(pygame.K_DOWN),
-    left=Button(pygame.K_LEFT),
-    right=Button(pygame.K_RIGHT),
-    b=Button(pygame.K_z),
-    a=Button(pygame.K_x),
-    start=Button(pygame.K_RETURN),
-)
-
-FPS = 144
+        self.game = game

@@ -1,10 +1,14 @@
+import pygame
+
 from copy import copy
+from button import Button
+from enums import Buttons
+from publisher import Publisher
 
 
-class Controller:
-    def __init__(self, up, down, left, right, b, a, start):
-        self.buttons = []
-
+class Controller(Publisher):
+    def __init__(self, broker, up, down, left, right, b, a, start):
+        super().__init__(broker)
         self.up = up
         self.down = down
         self.left = left
@@ -13,18 +17,23 @@ class Controller:
         self.a = a
         self.start = start
 
-        self.buttons.append(self.up)
-        self.buttons.append(self.down)
-        self.buttons.append(self.left)
-        self.buttons.append(self.right)
-        self.buttons.append(self.b)
-        self.buttons.append(self.a)
-        self.buttons.append(self.start)
+        self.buttons = self.load_buttons()
+
+    def load_buttons(self):
+        return {
+            Buttons.UP   : Button(Buttons.UP, getattr(pygame, self.up)),
+            Buttons.DOWN : Button(Buttons.DOWN, getattr(pygame, self.down)),
+            Buttons.LEFT : Button(Buttons.LEFT, getattr(pygame, self.left)),
+            Buttons.RIGHT: Button(Buttons.RIGHT ,getattr(pygame, self.right)),
+            Buttons.A    : Button(Buttons.A ,getattr(pygame, self.a)),
+            Buttons.B    : Button(Buttons.B ,getattr(pygame, self.b)),
+            Buttons.START: Button(Buttons.START ,getattr(pygame, self.start))
+        }
         
     def update(self):
-        for button in self.buttons:
-            button.update()
+        for key in self.buttons:
+            self.buttons[key].update(self.publish)
 
-    def update_event(self, event):
-        for button in self.buttons:
-            button.update_event(event)
+    def get_event(self, event):
+        for key in self.buttons:
+            self.buttons[key].get_event(event)

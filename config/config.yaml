@@ -1,0 +1,11 @@
+---
+title: 'Battle Network Engine'
+
+window: {
+  width: 480,
+  height: 480,
+}
+
+scale: 2.0
+
+fps: 144
