@@ -22,6 +22,7 @@ SPRITES = {
             TileStates.BASE: '../assets/textures/tiles/tile_blue.png'
         }
     },
+    'panels': '../assets/textures/panels/panels.png',
     'battlers': {
         'megaman': {
             PlayerAnimations.SPAWN: '../assets/textures/megaman/SPAWN_spritesheet.png',

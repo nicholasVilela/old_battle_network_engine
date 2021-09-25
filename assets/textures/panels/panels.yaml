@@ -1,0 +1,20 @@
+---
+sprite_config: {
+  size: [120, 30],
+  frames: [
+    frame_config: {
+      rect: [0, 0],
+      size: [40, 30],
+    },
+    frame_config: {
+      rect: [40, 0],
+      size: [40, 30],
+    },
+    frame_config: {
+      rect: [80, 0],
+      size: [40, 30]
+    }
+  ],
+  frame_duration: 50,
+  loop: true,
+}

@@ -3,8 +3,9 @@ class Entity:
         self.name = name
         self.components = components
         self.group = group
-        
+
         self.set_parent(self)
+        self.group.append(self)
 
     def update(self):
         for component in self.components:

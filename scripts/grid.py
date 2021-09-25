@@ -23,7 +23,7 @@ class Grid:
                     name=f'panel_({x}, {y})',
                     components=[
                         PositionComponent(),
-                        SpriteComponent(path=SPRITES['tiles']['red']),
+                        SpriteComponent(sprite_path=SPRITES['panels'], config_path='../assets/textures/panels/panels.yaml'),
                     ],
                     group=group,
                 )
