@@ -90,3 +90,8 @@ class Buttons(Enum):
 
 class PublisherDataTypes(Enum):
     CONTROLLER = 0,
+
+class ComponentTypes(Enum):
+    MOVEMENT = 0,
+    POSITION = 1,
+    SPRITE   = 2,

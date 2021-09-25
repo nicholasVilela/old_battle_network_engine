@@ -7,8 +7,8 @@ class BaseScene:
     def __init__(self, name, controller, state=SceneStates.IDLE):
         self.name = name
         self.state = state
-        self.layers = self.init_layers()
-        self.entities = self.init_entities()
+        self.layers = self.create_layers()
+        self.entities = self.create_entities()
         self.controller = controller
 
     def update(self):
@@ -41,10 +41,10 @@ class BaseScene:
 
         # for key in self.layers
 
-    def init_entities(self):
+    def create_entities(self):
         return {}
 
-    def init_layers(self):
+    def create_layers(self):
         return {}
 
     def change_state(self, target_state):

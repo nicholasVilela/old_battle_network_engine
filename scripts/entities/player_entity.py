@@ -54,26 +54,6 @@ class PlayerEntity(LivingEntity):
 
 
         self.subscriber.clear()
-        
-        # if self.state != LivingStates.IDLE:
-        #     return
-
-        # target_position = copy(self.position.map)
-
-        # if self.controller.buttons[Buttons.UP].state == (ButtonStates.PRESSED or ButtonStates.HOLDING):
-        #     target_position.y -= 1
-        # elif self.controller.down.state == (ButtonStates.PRESSED or ButtonStates.HOLDING):
-        #     target_position.y += 1
-        # elif self.controller.left.state == (ButtonStates.PRESSED or ButtonStates.HOLDING):
-        #     target_position.x -= 1
-        # elif self.controller.right.state == (ButtonStates.PRESSED or ButtonStates.HOLDING):
-        #     target_position.x += 1
-
-        # if target_position != self.position.map:
-        #     is_valid = check_position(target_position, self.team)
-        #     if is_valid:
-        #         self.sprite.animations[PlayerAnimations.MOVING].add_instruction(frame=3, function=self.change_position, params=[target_position])
-        #         self.change_state(LivingStates.MOVING, PlayerAnimations.MOVING)
 
     def update_attacks(self):
         if self.state == LivingStates.IDLE:

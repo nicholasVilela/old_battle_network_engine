@@ -11,81 +11,123 @@ from sprite import Sprite, AnimatedSprite
 from vec2 import Vec2
 from util import map_to_world, tint_by_row, create_surface, is_red_team
 from position import Position
-from enums import LivingStates, Teams, TileStates, Stats, Chips, ChipStates, SpellTypes, SpellStates, Stats, PlayerAnimations, PublisherDataTypes
+from enums import LivingStates, Teams, TileStates, Stats, Chips, ChipStates, SpellTypes, SpellStates, Stats, PlayerAnimations, PublisherDataTypes, ComponentTypes
 from animation import Animation
 from resources import resources
 from living_stat import Stat
 import chips.cannon as cannon_chip
 import chips.sword as sword_chip
 from subscriber import Subscriber
+from layer import Layer
+from grid import Grid
 
 
 class BattleScene(base_scene.BaseScene):
     def __init__(self, *args):
         super().__init__(*args)
-        self.init_map()
-        self.init_battlers()
+        self.grid = Grid(self.entities['grid'])
+        # self.init_map()
+        # self.init_battlers()
+
+    def update(self):
+        for key in self.entities:
+            for entity in self.entities[key]:
+                entity.update()
 
     def render(self, screen):
         for key in self.layers:
-            if key == 'battlers':
-                for pos in self.layers[key]:
-                    self.layers[key][pos].fill(COLORS['black'])
-            else:
-                self.layers[key].fill(COLORS['black'])
+            self.layers[key].update()
+            screen.blit(self.layers[key].surface, (0, 0))
 
-        for tile in resources['map']:
-            tile.render()
+    #     for key in self.entities:
+    #         self.entities[key].update()
+
+    # def render(self, screen):
+    #     for key in self.layers:
+    #         self.layers[key].fill(COLORS['black'])
+
+    #     for key in self.entities:
+    #         if ComponentTypes.SPRITE in self.entities[key].components:
+    #             self.entities[key].
+
+    #     for key in self.layers:
+    #         screen.blit(self.layers[key], (0, 0))
+
+        # for key in self.layers:
+        #     self.layers[key].fill(COLORS['black'])
+        #     for key in self.entities:
+        #         for entity in self.entities[key]:
+        #             entity.render()
+        # for key in self.layers:
+        #     screen.blit(self.layers[key], (0, 0))
+
+        
+        # for key in self.layers:
+        #     if key == 'battlers':
+        #         for pos in self.layers[key]:
+        #             self.layers[key][pos].fill(COLORS['black'])
+        #     else:
+        #         self.layers[key].fill(COLORS['black'])
+
+        # for tile in resources['map']:
+        #     tile.render()
                 
-        for key in self.entities:
-            for entity in self.entities[key]:
-                entity.render()
+        # for key in self.entities:
+        #     for entity in self.entities[key]:
+        #         entity.render()
 
-        for team in Teams:
-            for entity in resources[team]:
-                entity.render()
+        # for team in Teams:
+        #     for entity in resources[team]:
+        #         entity.render()
 
-        for key in self.layers:
-            if key == 'battlers':
-                for pos in self.layers[key]:
-                    screen.blit(self.layers[key][pos], (0, 0))
-            else:
-                screen.blit(self.layers[key], (0, 0))
+        # for key in self.layers:
+        #     if key == 'battlers':
+        #         for pos in self.layers[key]:
+        #             screen.blit(self.layers[key][pos], (0, 0))
+        #     else:
+        #         screen.blit(self.layers[key], (0, 0))
 
-    def update(self):
-        super().update()
-        for tile in resources['map']:
-            tile.update()
+    # def update(self):
+    #     super().update()
+    #     for tile in resources['map']:
+    #         tile.update()
 
-        for team in Teams:
-            for entity in resources[team]:
-                entity.update()
+    #     for team in Teams:
+    #         for entity in resources[team]:
+    #             entity.update()
 
 
-    def init_entities(self):
+    # def create_entities(self):
+    #     return {
+    #         'chips' : [],
+    #         'spells': [],
+    #     }
+
+    def create_entities(self):
         return {
-            'chips' : [],
-            'spells': [],
+            'grid': [],
         }
 
-    def init_layers(self):
-        battler_layers = {}
-
-        for y in range(resources['config'].game.grid.height):
-            for x in range(resources['config'].game.grid.width):
-                battler_layers[f'({x}, {y})'] = create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black'])
-
+    def create_layers(self):
         return {
-            'map'     : create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
-            'red_battlers': create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
-            'blue_battlers': create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
-            'battlers': battler_layers,
-            # 'battlers': init_surface(Vec2(WINDOW['width'], WINDOW['height']), COLORS['black']),
-            'chips'   : create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
+            'grid': Layer(),
         }
+        # battler_layers = {}
+
+        # for y in range(resources['config'].game.grid.height):
+        #     for x in range(resources['config'].game.grid.width):
+        #         battler_layers[f'({x}, {y})'] = create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black'])
+
+        # return {
+        #     'map'     : create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
+        #     'red_battlers': create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
+        #     'blue_battlers': create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
+        #     'battlers': battler_layers,
+        #     'chips'   : create_surface(Vec2(resources['config'].window.width, resources['config'].window.height), COLORS['black']),
+        # }
 
 
-    def init_map(self):
+    def create_grid(self):
         for y in range(0, resources['config'].game.grid.height):
             for x in range(0, resources['config'].game.grid.width):
                 scale = 2
